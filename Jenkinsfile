@@ -6,6 +6,14 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Code Quality') {
+            steps {
+                dir('starter') {
+                    sh 'mvn -B checkstyle:checkstyle'
+                }
+                archiveArtifacts artifacts: 'starter/target/checkstyle-result.xml, starter/target/reports/checkstyle.html', allowEmptyArchive: false
+            }
+        }
         stage('Code Coverage') {
             steps {
                 dir('starter') {
