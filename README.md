@@ -6,7 +6,7 @@ We are going to have 3 branches: prod, dev, and features.
 Prod- Main production with weekly pushes.  
 Dev- Working branch with daily pushes or as needed, merged into prod weekly.  
 Features- Individual branches for specific changes merged into dev once complete.  
-Branch Naming Convention: Feature/name/feature name  
+Branch Naming Convention: Feature/feature name.  
 Commit Message Convention: Be specific and limit to 1-2 lines.   
 
 # Team Members
