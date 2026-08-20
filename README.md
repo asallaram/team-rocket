@@ -1,6 +1,12 @@
 # Team Rocket
 Team Rocket's trading platform for Fidelity's LEAP Program.
 
+# Code Quality
+Checkstyle findings are reported by Jenkins without failing the build. To generate the report locally:
+
+	cd starter
+	mvn -B checkstyle:checkstyle
+
 # Branching Strategies
 We are going to have 3 branches: prod, dev, and features.  
 Prod- Main production with weekly pushes.  
