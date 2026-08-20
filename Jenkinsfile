@@ -6,22 +6,37 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Code Quality') {
+
+        stage('Build') {
             steps {
                 dir('starter') {
-                    sh 'mvn -B checkstyle:checkstyle'
+                    sh 'mvn -B clean package -DskipTests'
                 }
-                archiveArtifacts artifacts: 'starter/target/checkstyle-result.xml, starter/target/reports/checkstyle.html', allowEmptyArchive: false
             }
         }
-        stage('Code Coverage') {
-            steps {
-                dir('starter') {
-                    sh 'mvn -B clean verify'
+
+        stage('Validation') {
+            parallel {
+                stage('Code Coverage') {
+                    steps {
+                        dir('starter') {
+                            sh 'mvn -B clean verify'
+                        }
+                        archiveArtifacts artifacts: 'starter/target/site/jacoco/**', allowEmptyArchive: false
+                    }
                 }
-                archiveArtifacts artifacts: 'starter/target/site/jacoco/**', allowEmptyArchive: false
+
+                stage('Code Quality') {
+                    steps {
+                        dir('starter') {
+                            sh 'mvn -B checkstyle:checkstyle'
+                        }
+                        archiveArtifacts artifacts: 'starter/target/checkstyle-result.xml, starter/target/reports/checkstyle.html', allowEmptyArchive: false
+                    }
+                }
             }
         }
+        
         stage('Build Image') {
             steps {
                 dir('starter') {
@@ -30,6 +45,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Smoke Test') {
             steps {
                 dir('starter') {
