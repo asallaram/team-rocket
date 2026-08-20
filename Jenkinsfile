@@ -8,13 +8,15 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-                sh 'mvn -B clean package -DskipTests'
-                sh 'docker build -t team-skeleton:latest .'
+                dir('starter') {
+                    sh 'mvn -B clean package -DskipTests'
+                    sh 'docker build -t team-skeleton .'
+                }
             }
         }
-        stage('Smoke Test') 
+        stage('Smoke Test') {
             steps {
-                sh 'docker run --rm team-skeleton:latest'
+                sh 'docker run --rm team-skeleton'
             }
         }
     }
