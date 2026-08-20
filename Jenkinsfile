@@ -11,6 +11,9 @@ pipeline {
                 dir('starter') {
                     sh 'mvn -B clean verify'
                 }
+                timeout(time: 20, unit: 'SECONDS') {
+                    input message: 'Approve archiving the code coverage artifacts?', ok: 'Proceed'
+                }
                 archiveArtifacts artifacts: 'starter/target/site/jacoco/**', allowEmptyArchive: false
             }
         }
